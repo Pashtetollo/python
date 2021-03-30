@@ -10,4 +10,3 @@ if __name__ == '__main__':
     print("AFFORDABLE:\n\n")
     print(FruitManager.output(ATB.is_affordable(10.0, Order.DESC)))
     print("RIPE:\n\n")
-    ATB.is_ripe(Seasons.SPRING, Order.ASC)
