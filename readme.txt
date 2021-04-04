@@ -1,0 +1,1 @@
+to open solution open folder with repository in your console and run  command "python main.py"
