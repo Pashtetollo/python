@@ -29,6 +29,36 @@ def get_fruits():
     fruit = Fruit.query.all()
     return jsonify(FruitSchema(many=True).dump(fruit))
 
+@app.route("/name=<name>", methods=["GET"])
+def get_fruits_by_name(name):
+    fruit = Fruit.query.filter(Fruit.name == name)
+    return jsonify(FruitSchema(many=True).dump(fruit))
+
+
+@app.route("/name=<name>&color=<color>&season=<season>&price&lt=<price>", methods=["GET"])
+def get_ultimate_fruit(name, color, season, price):
+    fruit = Fruit.query.filter(
+        #Чому пошук залежить від порядку при операторі or? (якщо поміняти місцями то приймає лише "any" а так працюють обидві умови)
+        (name == "any") or (Fruit.name == name),             
+        (color == "any") or (Fruit.color == color),
+        (season == "any") or (Fruit.season == season),
+        (price == "any") or (Fruit.price <= price))
+    return jsonify(FruitSchema(many=True).dump(fruit))
+    
+@app.route("/color=<color>", methods=["GET"])
+def get_fruits_by_color(color):
+    fruit = Fruit.query.filter(Fruit.color == color)
+    return jsonify(FruitSchema(many=True).dump(fruit))
+
+@app.route("/season=<season>", methods=["GET"])
+def get_fruits_by_season(season):
+    fruit = Fruit.query.filter(Fruit.season == season)
+    return jsonify(FruitSchema(many=True).dump(fruit))
+
+@app.route("/price&lt=<price>", methods=["GET"])
+def get_fruits_by_price(price):
+    fruit = Fruit.query.filter(Fruit.price <= price)
+    return jsonify(FruitSchema(many=True).dump(fruit))
 
 @app.route("/<id>", methods=["GET"])
 def get_fruit(id):
